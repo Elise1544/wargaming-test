@@ -31,10 +31,6 @@ readTextFile('ships.json', function (text) {
   const showAllShips = () => {
 
     for (let i = 0; i < ships.length; i++) {
-
-      // createShipsItem();
-      // const shipNation = document.querySelector('ship-nation');
-      // shipNation.textContent = ships[i].nation;
       let li = document.createElement('li');
       li.classList.add('all-ships__item');
       li.innerHTML = `
@@ -83,47 +79,38 @@ readTextFile('ships.json', function (text) {
   addOptions(typeArray, typeField, 'type');
   addOptions(levelArray, levelField, 'level');
 
-  const findShip = () => {
-    nameField.addEventListener('input', () => {
-
-      allList.querySelectorAll('.all-ships__item').forEach(listItem => {
-        listItem.classList.add('visually-hidden');
-        let title = listItem.querySelector('.ship-title').textContent;
-
-        if (title.indexOf(nameField.value) === 0 ||
-          title.toLowerCase().indexOf(nameField.value) === 0 ||
-          title.toUpperCase().indexOf(nameField.value) === 0 ||
-          nameField.value === title ||
-          nameField.value === title.toLowerCase() ||
-          nameField.value === title.toUpperCase()) {
-
-          listItem.classList.remove('visually-hidden');
-
-        }
-      });
-
-      if (nameField.value === '') {
-        allList.querySelectorAll('.all-ships__item').forEach(listItem => {
-          listItem.classList.remove('visually-hidden');
-        });
-      }
-
-    });
-  };
-  findShip();
-
-  const checkShipMatchFilter = () => {
+  const checkShipMatch = () => {
     const allShips = [...allList.querySelectorAll('.all-ships__item')];
 
     allShips.forEach(ship => {
-      if (((nationField.value === 'nation-default') || (ship.querySelector('.ship-nation').textContent === nationField.value)) &&
-        ((typeField.value === 'type-default') || (ship.querySelector('.ship-type').textContent === typeField.value)) &&
-        ((levelField.value === 'level-default') || (ship.querySelector('.ship-level').textContent === levelField.value))) {
-        ship.classList.remove('visually-hidden');
-      } else {
-        ship.classList.add('visually-hidden');
+      ship.classList.add('visually-hidden');
+      
+      let isNameFit = () => {
+        let title = ship.querySelector('.ship-title').textContent;
+
+        if (title.indexOf(nameField.value) === 0 ||
+          title.toLowerCase().indexOf(nameField.value) === 0 ||
+          title.toUpperCase().indexOf(nameField.value) === 0) {
+
+          return true;
+        }
+      };
+      let nameFit = isNameFit();
+
+      let isFilterFit = () => {
+        if (((nationField.value === 'nation-default') || (ship.querySelector('.ship-nation').textContent === nationField.value)) &&
+          ((typeField.value === 'type-default') || (ship.querySelector('.ship-type').textContent === typeField.value)) &&
+          ((levelField.value === 'level-default') || (ship.querySelector('.ship-level').textContent === levelField.value))) {
+
+          return true;
+        }
       }
-    })
+      let filterFit = isFilterFit();
+
+      if (nameFit && filterFit) {
+        ship.classList.remove('visually-hidden');
+      }
+    });
   };
 
   const filterShips = () => {
@@ -131,13 +118,20 @@ readTextFile('ships.json', function (text) {
 
     selects.forEach(select => {
       select.addEventListener('change', () => {
-        checkShipMatchFilter();
-
+        checkShipMatch();
       });
     });
 
   };
   filterShips();
+
+  const findShip = () => {
+    nameField.addEventListener('input', () => {
+      checkShipMatch();
+    });
+  };
+  findShip();
+
 
 
   const countLevels = () => {
@@ -160,7 +154,7 @@ readTextFile('ships.json', function (text) {
           ship.classList.remove('selected-ships__item');
           ship.classList.add('all-ships__item');
           allList.prepend(ship);
-          checkShipMatchFilter();
+          checkShipMatch();
 
         } else if (
           selectedList.querySelectorAll('.selected-ships__item').length < 7 &&
@@ -187,7 +181,7 @@ readTextFile('ships.json', function (text) {
 
               z-index: 999;
               `;
-              
+
               setTimeout(() => {
                 ship.style.cssText = `
                 position: inherit;
