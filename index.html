@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wargaming</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="ships.json" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+
+<body>
+  <header>
+  </header>
+
+  <main>
+    <h1 class="visually-hidden">Выбор кораблей</h1>
+
+    <section class="searching">
+      <h2 class="visually-hidden">Форма поиска</h2>
+      <form action="" class="searching-form">
+        <label class="searching-form__label searching-form__label--name">
+          <input type="text" name="name" id="name" placeholder="Найти корабль">
+        </label>
+        <label class="searching-form__label">
+          <select name="nation" id="nation">
+            <option value="nation-default">Нация</option>
+          </select>
+        </label>
+        <label class="searching-form__label">
+          <select name="type" id="type">
+            <option value="type-default">Класс</option>
+          </select>
+        </label>
+        <label class="searching-form__label">
+          <select name="level" id="level">
+            <option value="level-default">Уровень</option>
+          </select>
+        </label>
+      </form>
+    </section>
+
+    <section class="all-ships">
+      <h2 class="visually-hidden">Все корабли</h2>
+      <ul class="all-ships__list">
+      </ul>
+    </section>
+
+    <section class="selected-ships">
+      <h2 class="selected-ships__title">Выбранные корабли:</h2>
+      <ul class="selected-ships__list">
+      </ul>
+      <p class="selected-ships__count">Сумма уровней: <span>0</span></p>
+    </section>
+  </main>
+
+  <footer>
+  </footer>
+</body>
+
+</html>

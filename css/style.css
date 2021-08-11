@@ -1,0 +1,188 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.visually-hidden:not(:focus):not(:active),
+input[type="checkbox"].visually-hidden,
+input[type="radio"].visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  align-items: flex-start;
+}
+
+.all-ships {
+  grid-row: 2;
+}
+
+.selected-ships {
+  grid-row: 1/3;
+}
+
+
+/* Поле поиска */
+
+.searching {
+  padding: 15px 20px;
+}
+
+.searching-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.searching-form__label {
+  width: 32%;
+  margin-bottom: 15px;
+}
+
+.searching-form__label--name {
+  width: 100%;
+}
+
+.searching-form select {
+  width: 100%;
+  height: 30px;
+}
+
+#name {
+  width: 100%;
+  height: 30px;
+}
+
+
+/* Список всех кораблей */
+
+.all-ships {
+  padding: 50px 20px;
+  border-top: 1px solid gray;
+}
+
+.all-ships__list,
+.selected-ships__list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.all-ships__item,
+.selected-ships__item {
+  margin: 10px;
+}
+
+.ship {
+  position: relative;
+  font-size: 25px;
+}
+
+.ship-image {
+  width: 300px;
+  height: 150px;
+  object-fit: cover;
+  margin: 0 auto
+}
+
+.ship-wrapper {
+  position: absolute;
+  background-color: rgba(256, 256, 256, 0.5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+.ship-wrapper p {
+  margin: 0;
+}
+
+.ship-title {
+  flex-basis: 100%;
+  margin: 0;
+  width: fit-content;
+}
+
+.ship-type {
+  position: relative;
+  padding-left: 15px;
+}
+
+.ship-type::before {
+  position: absolute;
+  content: "/";
+  left: 5px;
+}
+
+.ship-wrapper .ship-level {
+  margin-top: auto;
+}
+
+.ship-delete {
+  position: absolute;
+  content: "";
+  width: 30px;
+  height: 25px;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.ship-delete::after,
+.ship-delete::before {
+  position: absolute;
+  content: "";
+  width: 25px;
+  height: 2px;
+  top: 10px;
+  right: 0;
+  background-color: black;
+}
+
+.ship-delete::after {
+  transform: rotate(45deg);
+}
+
+.ship-delete::before {
+  transform: rotate(-45deg);
+}
+
+.all-ships__item .ship-delete {
+  display: none;
+}
+
+
+/* Выбранные корабли */
+
+.selected-ships {
+  border-left: 1px solid gray;
+  align-self: stretch;
+  padding: 15px 8%;
+}
