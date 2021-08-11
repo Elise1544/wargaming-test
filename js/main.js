@@ -14,7 +14,7 @@ const readTextFile = (file, callback) => {
   rawFile.send(null);
 }
 
-readTextFile('../ships.json', function (text) {
+readTextFile('ships.json', function (text) {
   ships = JSON.parse(text);
   const allList = document.querySelector('.all-ships__list');
   const selectedList = document.querySelector('.selected-ships__list');
@@ -103,28 +103,35 @@ readTextFile('../ships.json', function (text) {
       });
 
       if (nameField.value === '') {
-        showAllShips();
+        allList.querySelectorAll('.all-ships__item').forEach(listItem => {
+          listItem.classList.remove('visually-hidden');
+        });
       }
+
     });
   };
   findShip();
+
+  const checkShipMatchFilter = () => {
+    const allShips = [...allList.querySelectorAll('.all-ships__item')];
+
+    allShips.forEach(ship => {
+      if (((nationField.value === 'nation-default') || (ship.querySelector('.ship-nation').textContent === nationField.value)) &&
+        ((typeField.value === 'type-default') || (ship.querySelector('.ship-type').textContent === typeField.value)) &&
+        ((levelField.value === 'level-default') || (ship.querySelector('.ship-level').textContent === levelField.value))) {
+        ship.classList.remove('visually-hidden');
+      } else {
+        ship.classList.add('visually-hidden');
+      }
+    })
+  };
 
   const filterShips = () => {
     const selects = document.querySelectorAll('select');
 
     selects.forEach(select => {
       select.addEventListener('change', () => {
-        const allShips = [...allList.querySelectorAll('.all-ships__item')];
-
-        allShips.forEach(ship => {
-          if (((nationField.value === 'nation-default') || (ship.querySelector('.ship-nation').textContent === nationField.value)) &&
-            ((typeField.value === 'type-default') || (ship.querySelector('.ship-type').textContent === typeField.value)) &&
-            ((levelField.value === 'level-default') || (ship.querySelector('.ship-level').textContent === levelField.value))) {
-            ship.classList.remove('visually-hidden');
-          } else {
-            ship.classList.add('visually-hidden');
-          }
-        })
+        checkShipMatchFilter();
 
       });
     });
@@ -153,38 +160,70 @@ readTextFile('../ships.json', function (text) {
           ship.classList.remove('selected-ships__item');
           ship.classList.add('all-ships__item');
           allList.prepend(ship);
+          checkShipMatchFilter();
+
         } else if (
           selectedList.querySelectorAll('.selected-ships__item').length < 7 &&
           (+countSpan.textContent + +ship.querySelector('.ship-level').textContent) <= 42) {
+
           ship.classList.remove('all-ships__item');
           ship.classList.add('selected-ships__item');
-          selectedList.append(ship);
+
+          setTimeout(() => {
+            selectedList.append(ship);
+            countLevels();
+          }, 1000);
+
+          animate({
+            duration: 700,
+            timing(timeFraction) {
+              return timeFraction;
+            },
+            draw(progress) {
+              ship.style.cssText = `
+              position: fixed;
+              left: ${progress * 100}%;
+              top: 50%;
+
+              z-index: 999;
+              `;
+              
+              setTimeout(() => {
+                ship.style.cssText = `
+                position: inherit;
+                left: 0;
+                `;
+              }, 700)
+            }
+          });
+
         }
+
         countLevels();
       });
     });
   };
   selectShip();
 
-  // function animate({ timing, draw, duration }) {
+  function animate({ timing, draw, duration }) {
 
-  //   let start = performance.now();
+    let start = performance.now();
 
-  //   requestAnimationFrame(function animate(time) {
-  //     // timeFraction изменяется от 0 до 1
-  //     let timeFraction = (time - start) / duration;
-  //     if (timeFraction > 1) timeFraction = 1;
+    requestAnimationFrame(function animate(time) {
+      // timeFraction изменяется от 0 до 1
+      let timeFraction = (time - start) / duration;
+      if (timeFraction > 1) timeFraction = 1;
 
-  //     // вычисление текущего состояния анимации
-  //     let progress = timing(timeFraction);
+      // вычисление текущего состояния анимации
+      let progress = timing(timeFraction);
 
-  //     draw(progress); // отрисовать её
+      draw(progress); // отрисовать её
 
-  //     if (timeFraction < 1) {
-  //       requestAnimationFrame(animate);
-  //     }
+      if (timeFraction < 1) {
+        requestAnimationFrame(animate);
+      }
 
-  //   });
-  // }
+    });
+  }
 
 });
