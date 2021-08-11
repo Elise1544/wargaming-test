@@ -45,7 +45,7 @@ readTextFile('ships.json', function (text) {
             <h3 class="ship-title">${ships[i].title}</h3>
             <p class="ship-level">${ships[i].level}</p>
           </div>
-          <img class="ship-image" src="../img/ship.jpg" width="300" height="150">
+          <img class="ship-image" src="img/ship.jpg" width="300" height="150">
           <button class="ship-delete"></button>
         </div>`
 
