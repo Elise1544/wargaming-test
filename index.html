@@ -19,7 +19,7 @@
 
     <section class="searching">
       <h2 class="visually-hidden">Форма поиска</h2>
-      <form action="" class="searching-form">
+      <form class="searching-form" method="GET" action="https://jsonplaceholder.typicode.com/posts/1">
         <label class="searching-form__label searching-form__label--name">
           <input type="text" name="name" id="name" placeholder="Найти корабль">
         </label>
@@ -52,6 +52,10 @@
       <ul class="selected-ships__list">
       </ul>
       <p class="selected-ships__count">Сумма уровней: <span>0</span></p>
+      <div class="selected-ships__share">
+        <button class="selected-ships__button">Поделиться</button>
+        <button class="selected-ships__link"></button>
+      </div>
     </section>
   </main>
 

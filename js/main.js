@@ -23,10 +23,14 @@ readTextFile('ships.json', function (text) {
   const typeField = document.querySelector('#type');
   const levelField = document.querySelector('#level');
   const countSpan = document.querySelector('.selected-ships__count span');
+  const shareBlock = document.querySelector('.selected-ships__share');
+  const shareButton = document.querySelector('.selected-ships__button');
+  const shareAddress = document.querySelector('.selected-ships__link');
 
   let nationArray = [];
   let typeArray = [];
   let levelArray = [];
+  let address = location.href;
 
   const showAllShips = () => {
 
@@ -46,6 +50,13 @@ readTextFile('ships.json', function (text) {
         </div>`
 
       allList.append(li);
+
+      if (location.href.indexOf(`#${ships[i].title.replace(/\s/g, '_')}`) != -1) {
+        selectedList.append(li);
+        li.classList.add('selected-ships__item');
+        li.classList.remove('all-ships__item');
+        countLevels();
+      }
     }
   };
   showAllShips();
@@ -84,14 +95,13 @@ readTextFile('ships.json', function (text) {
 
     allShips.forEach(ship => {
       ship.classList.add('visually-hidden');
-      
+
       let isNameFit = () => {
         let title = ship.querySelector('.ship-title').textContent;
 
         if (title.indexOf(nameField.value) === 0 ||
           title.toLowerCase().indexOf(nameField.value) === 0 ||
           title.toUpperCase().indexOf(nameField.value) === 0) {
-
           return true;
         }
       };
@@ -132,9 +142,7 @@ readTextFile('ships.json', function (text) {
   };
   findShip();
 
-
-
-  const countLevels = () => {
+  function countLevels() {
     const levels = selectedList.querySelectorAll('.ship-level');
     let sum = 0;
 
@@ -146,7 +154,7 @@ readTextFile('ships.json', function (text) {
   };
 
   const selectShip = () => {
-    const allShips = allList.querySelectorAll('[class$="-ships__item"]');
+    const allShips = document.querySelectorAll('[class$="-ships__item"]');
 
     allShips.forEach(ship => {
       ship.addEventListener('click', (evt) => {
@@ -156,7 +164,10 @@ readTextFile('ships.json', function (text) {
           allList.prepend(ship);
           checkShipMatch();
 
-        } else if (
+          address = `${address.replace(`#${ship.querySelector('.ship-title').textContent.replace(/\s/g, '_')}`, '')}`;
+          shareAddress.textContent = address;
+
+        } else if ((!evt.target.closest('.selected-ships__item')) &&
           selectedList.querySelectorAll('.selected-ships__item').length < 7 &&
           (+countSpan.textContent + +ship.querySelector('.ship-level').textContent) <= 42) {
 
@@ -175,24 +186,24 @@ readTextFile('ships.json', function (text) {
             },
             draw(progress) {
               ship.style.cssText = `
-              position: fixed;
-              left: ${progress * 100}%;
-              top: 50%;
-
-              z-index: 999;
-              `;
+                position: fixed;
+                left: ${progress * 100}%;
+                top: 50%;
+                z-index: 999;
+                `;
 
               setTimeout(() => {
                 ship.style.cssText = `
-                position: inherit;
-                left: 0;
-                `;
+                  position: inherit;
+                  left: 0;
+                  `;
               }, 700)
             }
           });
 
+          address += `#${ship.querySelector('.ship-title').textContent.replace(/\s/g, '_')}#`;
+          shareAddress.textContent = address;
         }
-
         countLevels();
       });
     });
@@ -219,5 +230,13 @@ readTextFile('ships.json', function (text) {
 
     });
   }
+
+  const shareLink = () => {
+    shareButton.addEventListener('click', () => {
+      shareAddress.style.display = 'block';
+
+    });
+  };
+  shareLink();
 
 });

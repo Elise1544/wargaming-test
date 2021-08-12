@@ -211,3 +211,27 @@ main {
 
   font-size: 25px;
 }
+
+.selected-ships__button {
+  border-radius: 10px;
+  background-color: transparent;
+  height: 40px;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.selected-ships__button:hover {
+  border: 2px solid green;
+}
+
+.selected-ships__link {
+  display: none;
+  margin-top: 10px;
+  height: 30px;
+  width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: rgba(256, 256, 256, 0.5);
+  border: 1px solid black;
+  user-select: all;
+}
