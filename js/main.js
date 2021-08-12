@@ -51,7 +51,8 @@ readTextFile('ships.json', function (text) {
 
       allList.append(li);
 
-      if (location.href.indexOf(`#${ships[i].title.replace(/\s/g, '_')}`) != -1) {
+      encodeURI(address)
+      if (location.href.indexOf(`#${encodeURI(ships[i].title.replace(/\s/g, '_'))}#`) != -1) {
         selectedList.append(li);
         li.classList.add('selected-ships__item');
         li.classList.remove('all-ships__item');
@@ -165,7 +166,7 @@ readTextFile('ships.json', function (text) {
           checkShipMatch();
 
           address = `${address.replace(`#${ship.querySelector('.ship-title').textContent.replace(/\s/g, '_')}`, '')}`;
-          shareAddress.textContent = address;
+          shareAddress.textContent = encodeURI(address);
 
         } else if ((!evt.target.closest('.selected-ships__item')) &&
           selectedList.querySelectorAll('.selected-ships__item').length < 7 &&
@@ -202,7 +203,7 @@ readTextFile('ships.json', function (text) {
           });
 
           address += `#${ship.querySelector('.ship-title').textContent.replace(/\s/g, '_')}#`;
-          shareAddress.textContent = address;
+          shareAddress.textContent = encodeURI(address);
         }
         countLevels();
       });
