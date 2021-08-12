@@ -234,4 +234,5 @@ main {
   background-color: rgba(256, 256, 256, 0.5);
   border: 1px solid black;
   user-select: all;
+  white-space: nowrap;
 }
